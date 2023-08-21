@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Query, Res, Response } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Query, Res, Response } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dtos/user.dto';
-import { CreateTweetDto } from './dtos/tweet.dto';
+import { CreateTweetDto, PassQueryPage } from './dtos/tweet.dto';
 
 @Controller()
 export class AppController {
@@ -32,8 +32,12 @@ export class AppController {
   }
 
   @Get('tweets')
-  getTweets() {
-    return this.appService.getTweets();
+  getTweets(@Query() query : PassQueryPage) {
+    try {
+      return this.appService.getTweets(query);
+    }catch (err) {
+      throw new HttpException("Informe uma página válida!", HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get('tweets/:username')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dtos/user.dto';
 import { Tweet } from './entities/tweet.entity';
-import { CreateTweetDto } from './dtos/tweet.dto';
+import { CreateTweetDto, PassQueryPage } from './dtos/tweet.dto';
 
 @Injectable()
 export class AppService {
@@ -33,8 +33,10 @@ export class AppService {
     return this.tweets.push(new Tweet(username, tweet));
   }
 
-  getTweets() {
-    const dezUltimos = this.tweets.reverse().slice(0, 15);
+  getTweets(query : PassQueryPage) {
+    let page = parseInt(query?.page);
+    if(page < 1) throw new Error("Invalid Page");
+    const dezUltimos = this.tweets.reverse().slice((page - 1) * 14, page * 15);
     const tweetsAvatares = dezUltimos.map((elemento, index) => {
       const user = this.users.find((findUsername) => findUsername.getUsername() === elemento.getUsername())
       const novoObj = {

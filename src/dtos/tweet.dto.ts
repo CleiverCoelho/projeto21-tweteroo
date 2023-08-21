@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUrl } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsUrl } from "class-validator";
 
 export class CreateTweetDto {
   @IsString()
@@ -8,4 +8,10 @@ export class CreateTweetDto {
   @IsString()
   @IsNotEmpty()
   tweet: string;
+}
+
+export class PassQueryPage {
+  @IsString()
+  @IsOptional()
+  page : string;
 }
