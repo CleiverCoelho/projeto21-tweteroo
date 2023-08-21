@@ -15,8 +15,8 @@ export class AppService {
     this.tweets = [];
   }
 
-  getHello(): string {
-    return 'Hello World!';
+  getHealth(): string {
+    return "I'm okay!";
   }
 
   signUpUser(body : CreateUserDto) {
@@ -26,11 +26,15 @@ export class AppService {
 
   createTweet(body: CreateTweetDto) {
     const { username, tweet } = body;
+    
+    if(!this.users.find((elemento) => elemento.getUsername() === username)){
+      throw new Error('UNAUTHORIZED');
+    }
     return this.tweets.push(new Tweet(username, tweet));
   }
 
   getTweets() {
-    const dezUltimos = this.tweets.reverse().slice(0, 14);
+    const dezUltimos = this.tweets.reverse().slice(0, 15);
     const tweetsAvatares = dezUltimos.map((elemento, index) => {
       const user = this.users.find((findUsername) => findUsername.getUsername() === elemento.getUsername())
       const novoObj = {

@@ -2,10 +2,10 @@ import { IsNotEmpty, IsString, IsUrl } from "class-validator";
 
 export class CreateUserDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({message: "All fields are required!"})
   username: string; // required().string().max(1)
 
   @IsUrl()
-  @IsNotEmpty()
+  @IsNotEmpty({message: "All fields are required!"})
   avatar: string;
 }

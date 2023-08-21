@@ -8,8 +8,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHealth(): string {
+    return this.appService.getHealth();
   }
 
   @Post("sign-up")
@@ -24,7 +24,11 @@ export class AppController {
 
   @Post('tweets')
   createTweet(@Body() body: CreateTweetDto) {
-    return this.appService.createTweet(body);
+    try{
+      return this.appService.createTweet(body);
+    }catch(err){
+      throw new HttpException("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+    }
   }
 
   @Get('tweets')
