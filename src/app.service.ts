@@ -36,7 +36,9 @@ export class AppService {
   getTweets(query : PassQueryPage) {
     let page = parseInt(query?.page);
     if(page < 1) throw new Error("Invalid Page");
-    const dezUltimos = this.tweets.reverse().slice((page - 1) * 14, page * 15);
+    if(isNaN(page)) page = 1;
+    const sum = 1;
+    const dezUltimos = this.tweets.reverse().slice((page - 1) * 14 + (page > 1 ? sum : 0), page * 15);
     const tweetsAvatares = dezUltimos.map((elemento, index) => {
       const user = this.users.find((findUsername) => findUsername.getUsername() === elemento.getUsername())
       const novoObj = {
